@@ -17,7 +17,7 @@ import (
 	"strconv"
 	"strings"
 
-	yparser "github.com/cznic/parser/yacc"
+	yparser "github.com/chuanglian-dev/parser/yacc"
 	"github.com/YKG/strutil"
 )
 
