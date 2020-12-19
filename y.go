@@ -17,13 +17,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cznic/mathutil"
 	yparser "github.com/cznic/parser/yacc"
 	"github.com/cznic/strutil"
 )
 
 const (
-	intBits  = mathutil.IntBits
+	intBits  = 1 << (^uint(0)>>32&1 + ^uint(0)>>16&1 + ^uint(0)>>8&1 + 3)
 	bitShift = intBits>>6 + 5
 	bitMask  = intBits - 1
 )
@@ -38,6 +37,15 @@ var (
 	empty     = "ε"
 	isTesting bool
 )
+
+// Max returns the larger of a and b.
+func YMax(a, b int) int {
+	if a > b {
+		return a
+	}
+
+	return b
+}
 
 type action struct {
 	kind int // 'a': accept, 'g': goto, 'r': reduce, 's': shift
@@ -1380,7 +1388,7 @@ func (y *y) report(w io.Writer) {
 		var a []string
 		max := 0
 		for _, v := range y.syms {
-			max = mathutil.Max(max, len(v.Name))
+			max = YMax(max, len(v.Name))
 		}
 		for _, v := range y.syms {
 			a = append(a, fmt.Sprintf("%[2]*[1]s val %6[3]d, id %3[5]d, type %[4]q",
@@ -1457,7 +1465,7 @@ func (y *y) report(w io.Writer) {
 		a := []string{}
 		var w int
 		for sym := range state.actions {
-			w = mathutil.Max(w, len(sym.Name))
+			w = YMax(w, len(sym.Name))
 			a = append(a, sym.Name)
 		}
 		sort.Strings(a)
@@ -1482,7 +1490,7 @@ func (y *y) report(w io.Writer) {
 		a = a[:0]
 		w = 0
 		for sym := range state.gotos {
-			w = mathutil.Max(w, len(sym.Name))
+			w = YMax(w, len(sym.Name))
 			a = append(a, sym.Name)
 		}
 		sort.Strings(a)
