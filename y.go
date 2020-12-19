@@ -18,7 +18,7 @@ import (
 	"strings"
 
 	yparser "github.com/cznic/parser/yacc"
-	"github.com/cznic/strutil"
+	"github.com/YKG/strutil"
 )
 
 const (

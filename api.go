@@ -40,7 +40,7 @@ import (
 	"strings"
 
 	yparser "github.com/cznic/parser/yacc"
-	"github.com/cznic/sortutil"
+	"github.com/YKG/sortutil"
 )
 
 // Values of {AssocDef,Rule,Sym}.Associativity
